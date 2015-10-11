@@ -22,7 +22,7 @@ test() {
   fi
 
   printf %s "- incorrect directory name...   "
-  expected="^Error: ENOENT, .* 'XXX/index.txt'$"
+  expected="^Error: ENOENT[,:] .* 'XXX/index.txt'$"
   if actual="$(node --harmony "$1" XXX 2>&1 1>/dev/null)" ; then
     printf "$failed"
   elif [[ $? != 1 ]] ; then
@@ -35,7 +35,7 @@ test() {
 
   printf %s "- inaccurate index...           "
   rm -f -- input/baz.txt
-  expected="^Error: ENOENT, .* 'input/baz.txt'$"
+  expected="^Error: ENOENT[,:] .* 'input/baz.txt'$"
   if actual="$(node --harmony "$1" input 2>&1 1>/dev/null)" ; then
     printf "$failed"
   elif [[ $? != 1 ]] ; then
@@ -59,3 +59,4 @@ test coroutines-co.js
 test coroutines-bluebird.js
 test await.compiled.js
 test tasks.js
+test kgo.js
