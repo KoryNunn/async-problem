@@ -4,37 +4,25 @@ const fs = require('fs');
 const path = require('path');
 
 const righto = require('righto');
-const R = require('ramda');
-const S = require('sanctuary');
 
-
-// join :: String -> String -> String
-const join = R.curryN(2, path.join);
-
-// data Text = Buffer | String
-// readFile :: String -> String -> ((Error?, Text?) -> Unit) -> Unit
-const readFile = R.curry((encoding, filename, callback) => {
-  fs.readFile(filename, {encoding: encoding}, callback);
-});
-
+const readFile = dir => file => righto(fs.readFile, path.join(dir, file), {encoding:'utf8'});
 
 const main = () => {
-  const dir = process.argv[2];
+    const dir = process.argv[2];
 
-  const getFile = righto(readFile('utf8', join(dir, 'index.txt')));
-  const getPaths = righto.sync(S.compose(R.map(join(dir)), S.lines), getFile);
-  const getFiles = righto.all(righto.sync(R.map(path => righto(readFile('utf8', path))), getPaths));
-  const getConcated = righto.sync(R.join(''), getFiles);
+    const file = readFile(dir)('index.txt');
+    const files = righto.sync(index => index.match(/^.*(?=\n)/gm).map(readFile(dir)), file);
+    const concatedFiles = righto.sync(results => results.join(''), righto.all(files));
 
-  getConcated((error, data) => {
-    if(error){
-      process.stderr.write(String(error) + '\n');
-      process.exit(1);
-    }else{
-      process.stdout.write(data);
-      process.exit(0);
-    }
-  });
+    concatedFiles((error, data) => {
+        if(error){
+            process.stderr.write(String(error) + '\n');
+            process.exit(1);
+        }else{
+            process.stdout.write(data);
+            process.exit(0);
+        }
+    });
 };
 
-if (process.argv[1] === __filename) main();
+if (process.mainModule.filename === __filename) main();
