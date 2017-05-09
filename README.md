@@ -23,14 +23,14 @@ The solutions are best read in the following order:
   - [__kgo.js__](./kgo.js)
   - [__righto.js__](./righto.js)
   - [__promises.js__](./promises.js)
-  - [__promises-ramda.js__](./promises-ramda.js)
+  - [__promises-pipe.js__](./promises-pipe.js)
   - [__bluebird-promisell.js__](./bluebird-promisell.js)
   - [__most.js__](./most.js)
   - [__coroutines-co.js__](./coroutines-co.js)
   - [__coroutines-bluebird.js__](./coroutines-bluebird.js)
   - [__await.js__](./await.js)
-  - [__tasks.js__](./tasks.js)
   - [__lazy-either.js__](./lazy-either.js)
+  - [__futures.js__](./futures.js)
 
 The above ordering is suggested reading order only – not grade. Solutions are
 graded on the following criteria:

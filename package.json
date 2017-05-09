@@ -5,20 +5,21 @@
     "test": "./test"
   },
   "dependencies": {
-    "async": "1.2.x",
-    "bluebird": "2.9.x",
-    "bluebird-promisell": "0.4.x",
-    "co": "4.5.x",
-    "data.task": "3.0.x",
+    "async": "2.4.x",
+    "bluebird": "3.5.x",
+    "bluebird-promisell": "0.6.x",
+    "co": "4.6.x",
+    "fluture": "5.0.x",
     "foreign": "1.0.x",
-    "kgo": "3.1.x",
+    "kgo": "4.0.x",
     "lazy-either": "1.0.x",
-    "most": "0.18.x",
-    "ramda": "0.19.x",
-    "righto": "0.3.x",
-    "sanctuary": "0.9.x"
+    "most": "1.3.x",
+    "righto": "2.6.x",
+    "sanctuary": "0.12.x",
+    "sanctuary-def": "0.10.x"
   },
   "devDependencies": {
-    "babel": "5.x.x"
+    "eslint": "3.19.x",
+    "sanctuary-style": "0.5.x"
   }
 }
