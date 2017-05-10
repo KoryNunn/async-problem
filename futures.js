@@ -14,14 +14,18 @@ const S             = require('./common/sanctuary');
 const readFile =
 S.compose(Future.node, S.curry3(fs.readFile, S.__, {encoding: 'utf8'}));
 
+//    readFilePar :: String -> ConcurrentFuture Error String
+const readFilePar = S.compose(Future.Par, readFile);
+
 //    concatFiles :: (String -> String) -> Future Error String
 const concatFiles = path =>
-  S.pipe([path,                                   // :: String
-          readFile,                               // :: Future Error String
-          S.map(S.lines),                         // :: Future Error (Array String)
-          S.map(S.map(path)),                     // :: Future Error (Array String)
-          S.chain(S.traverse(Future, readFile)),  // :: Future Error (Array String)
-          S.map(S.joinWith(''))],                 // :: Future Error String
+  S.pipe([path,                                         // :: String
+          readFile,                                     // :: Future Error String
+          S.map(S.lines),                               // :: Future Error (Array String)
+          S.map(S.map(path)),                           // :: Future Error (Array String)
+          S.map(S.traverse(Future.Par, readFilePar)),   // :: Future Error (ConcurrentFuture Error (Array String))
+          S.chain(Future.seq),                          // :: Future Error (Array String)
+          S.map(S.joinWith(''))],                       // :: Future Error String
          'index.txt');
 
 
