@@ -8,14 +8,14 @@ const S             = require('./common/sanctuary');
 
 
 async function main() {
-  const readFileRelative = S.compose(readFile, join(process.argv[2]));
+  const readFileRel = S.compose(readFile, join(process.argv[2]));
   let index;
   try {
-    index = await readFileRelative('index.txt');
+    index = await readFileRel('index.txt');
   } catch (err) {
     exit1(err);
   }
-  Promise.all(S.map(readFileRelative, S.lines(index)))
+  Promise.all(S.map(readFileRel, S.lines(index)))
   .then(S.joinWith(''))
   .then(exit0, exit1);
 }

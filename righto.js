@@ -14,12 +14,12 @@ const join          = require('./common/join');
 const readFile = S.curry3(righto, fs.readFile, S.__, {encoding: 'utf8'});
 
 //    concatFiles :: (String -> String) -> Righto String
-const concatFiles = path =>
-  righto.sync(S.joinWith(''),
-              righto.all(righto.sync(S.pipe([S.lines,
-                                             S.map(path),
-                                             S.map(readFile)]),
-                                     readFile(path('index.txt')))));
+const concatFiles = path => {
+  const readFileRel = S.compose(readFile, path);
+  const index = readFileRel('index.txt');
+  const files = righto.sync(S.compose(S.map(readFileRel), S.lines), index);
+  return righto.sync(S.joinWith(''), righto.all(files));
+};
 
 
 const main = () => {
